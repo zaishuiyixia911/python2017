@@ -8,10 +8,9 @@ import re
 class ChenkOn(object):
 	def __init__(self):
 		self.headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0'}
-		self.baseURL = 'http://tech.gopay.com.cn/login?back_url=http://tech.gopay.com.cn/my/page'
-		self.baseURL1 = 'http://tech.gopay.com.cn'
-		self.loginURL = 'http://tech.gopay.com.cn/login'
-		self.checkonURL = 'http://tech.gopay.com.cn/k_attrecords/show_one'
+		self.baseURL1 = 'http://techoo.gopay.com.cn'
+		self.loginURL = 'http://techoo.gopay.com.cn/login'
+		self.checkonURL = 'http://techoo.gopay.com.cn/k_attrecords/show_one'
 	
 	def getPage(self):
 		self.cookie = cookielib.CookieJar()
@@ -40,8 +39,8 @@ class ChenkOn(object):
 
 	def login(self):
 		data = {"authenticity_token":self.getToken(),
-			"username":"shaohongshuai",
-			"password":"yeruiliang911",
+			"username":"aaaaaa",
+			"password":"bbbbbb",
 			"login":""}
 		self.postdata = urllib.urlencode(data)
 		try:
