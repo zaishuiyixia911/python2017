@@ -7,7 +7,6 @@ import re
 
 class ChenkOn(object):
 	def __init__(self):
-		self.headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0'}
 		self.baseURL1 = 'http://techoo.gopay.com.cn'
 		self.loginURL = 'http://techoo.gopay.com.cn/login'
 		self.checkonURL = 'http://techoo.gopay.com.cn/k_attrecords/show_one'
