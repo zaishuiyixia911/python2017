@@ -1,0 +1,6 @@
+###################
+
+the picture_meinv.py need install some models:
+pip install gevent==1.1
+pip install bs4
+pip install lxml
