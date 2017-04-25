@@ -1,0 +1,9 @@
+{'hostname': 'localdomain',
+ 'ip': '192.168.1.247',
+ 'Manufacturer': 'IBM',
+ 'Serial': 'CN752507TK',
+ 'Product': 'ProLiant DL388 Gen9',
+ 'cpu_model': 'Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz',
+ 'cpu_num': 24,
+ 'mem': '31983M',
+ 'os_version': 'CentOS release 6.8 (Final)'}
