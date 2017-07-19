@@ -1,0 +1,34 @@
+#_*_ coding:utf-8 _*_
+
+import sys;
+reload(sys);
+sys.setdefaultencoding("utf8")
+
+from assets.myauth import UserProfile
+from django.db import models
+
+# Create your models here.
+
+class Task(models.Model):
+    sn = models.CharField('编号',max_length=50)
+    time = models.CharField('日期',max_length=50)
+    serviceman = models.CharField('服务对象',max_length=50)
+    dpartment = models.CharField('所属部门',max_length=50)
+    responsibleman = models.CharField('工作负责人',max_length=50)
+    dpartment1 = models.CharField('所属部门',max_length=50)
+    task = models.CharField('工作任务',max_length=200)
+    taskman = models.CharField('工作任务签发人',max_length=50)
+    tasktime = models.CharField('签发时间',max_length=50)
+    issue_des = models.CharField('故障问题描述',max_length=200)
+    issue_solve = models.CharField('故障解决情况',max_length=50)
+    feedback = models.CharField('服务反馈意见',max_length=50)
+    leaderview = models.CharField('领导意见',max_length=50)	
+
+
+    class Meta:
+        verbose_name = '故障表'
+        verbose_name_plural = "故障表"
+    def __str__(self):
+        return '<id:%s task:%s>'  %(self.id,self.task )
+
+

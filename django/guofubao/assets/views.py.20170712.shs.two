@@ -1,0 +1,124 @@
+#!/usr/bin/python
+#_*_coding:utf8_*_
+
+from django.shortcuts import render, HttpResponse
+#from assets import core, models, asset_handle, utils, admin
+from assets import models, admin
+import json
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+from assets import tables
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from  assets.dashboard import  AssetDashboard
+from tasks.models import Task
+
+# Create your views here.
+
+
+@login_required
+def index(request):
+    return render(request, 'index.html')
+
+
+
+
+@login_required
+def asset_list(request):
+    print(request.GET)
+    asset_obj_list = tables.table_filter(request, admin.AssetAdmin, models.Asset)
+    # asset_obj_list = models.Asset.objects.all()
+    print("admin.AssetAdmin",admin.AssetAdmin)
+    print("models.Asset",models.Asset)
+    print("asset_obj_list_all",models.Asset.objects.all())
+    print("asset_obj_list:", asset_obj_list)
+    order_res = tables.get_orderby(request, asset_obj_list, admin.AssetAdmin)
+    print('order-res----->',order_res)
+    paginator = Paginator(order_res[0], admin.AssetAdmin.list_per_page)
+
+    page = request.GET.get('page')
+    try:
+        asset_objs = paginator.page(page)
+    except PageNotAnInteger:
+        asset_objs = paginator.page(1)
+    except EmptyPage:
+        asset_objs = paginator.page(paginator.num_pages)
+
+    table_obj = tables.TableHandler(request,
+                                    models.Asset,
+                                    admin.AssetAdmin,
+                                    asset_objs,
+                                    order_res
+                                    )
+
+    return render(request, 'assets/assets.html', {'table_obj': table_obj,
+                                                  'paginator': paginator})
+
+
+from assets import tables_task
+@login_required
+def task_list(request):
+    print(request.GET)
+    task_obj_list = tables_task.table_filter(request, admin.TaskAdmin, Task)
+    # asset_obj_list = models.Asset.objects.all()
+    print("admin.TaskAdmin",admin.TaskAdmin)
+    print("models.Task",Task)
+    print("task_obj_list_all",Task.objects.all())
+    print("task_obj_list:", task_obj_list)
+    order_res = tables_task.get_orderby(request, task_obj_list, admin.TaskAdmin)
+    print('task-list----->',order_res)
+    paginator = Paginator(order_res[0], admin.TaskAdmin.list_per_page)
+
+    page = request.GET.get('page')
+    try:
+        task_objs = paginator.page(page)
+    except PageNotAnInteger:
+        task_objs = paginator.page(1)
+    except EmptyPage:
+        task_objs = paginator.page(paginator.num_pages)
+    
+    print ("******************task_objs",task_objs)
+    table_obj = tables_task.TableHandler(request,
+                                    Task,
+                                    admin.TaskAdmin,
+                                    task_objs,
+                                    order_res
+                                    )
+
+    print ("******************table_obj",table_obj)
+    print ("))))))))))))))))))))))))))))))))))))))___task.html",render(request, 'assets/task.html', {'table_obj': table_obj,'paginator': paginator}))
+    return render(request, 'assets/task.html', {'table_obj': table_obj,
+                                                  'paginator': paginator})
+
+@login_required
+def asset_category(request):
+    category_type = request.GET.get("category_type")
+    print category_type
+    if not category_type: category_type = 'server'
+    if request.is_ajax():
+        categories = asset_handle.AssetCategroy(request)
+        data = categories.serialize_data()
+	print HttpResponse(data)
+        return HttpResponse(data)
+    else:
+        return render(request, 'assets/asset_category.html', {'category_type': category_type})
+
+
+@login_required
+def asset_detail(request, asset_id):
+    if request.method == "GET":
+        try:
+            asset_obj = models.Asset.objects.get(id=asset_id)
+
+        except ObjectDoesNotExist as e:
+            return render(request, 'assets/asset_detail.html', {'error': e})
+        return render(request, 'assets/asset_detail.html', {"asset_obj": asset_obj})
+
+
+@login_required
+def get_dashboard_data(request):
+    '''返回主页面数据'''
+
+    dashboard_data = AssetDashboard(request)
+    dashboard_data.searilize_page()
+    return HttpResponse(json.dumps(dashboard_data.data))

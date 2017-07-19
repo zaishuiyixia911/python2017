@@ -1,0 +1,22 @@
+from django.db import models
+
+# Create your models here.
+
+class Task(models.Model):
+	sn = models.CharField(max_length=50)
+	time = models.CharField(max_length=50)
+	serviceman = models.CharField(max_length=50)
+	dpartment = models.CharField(max_length=50)
+	responsibleman = models.CharField(max_length=50)
+	dpartment1 = models.CharField(max_length=50)
+	task = models.CharField(max_length=200)
+	taskman = models.CharField(max_length=50)
+	tasktime = models.CharField(max_length=50)
+	issue_des = models.CharField(max_length=200)
+	issue_solve = models.CharField(max_length=50)
+	feedback = models.CharField(max_length=50)
+	leaderview = models.CharField(max_length=50)	
+
+
+
+
