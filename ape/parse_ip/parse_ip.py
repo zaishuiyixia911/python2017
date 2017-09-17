@@ -7,6 +7,7 @@
 ##################### 实现功能  #################
 #该程序能对ip组实现去重功能，ip包括精确ip、ip段、带掩码的ip，默认是一行一个ip组
 #执行时使用 python parse_ip.py ip列表文件1 ip列表文件2
+#未完成，未实现一个具体的ip与ip段的合并，这个要用到求与操作，有时间去做
 
 from optparse import OptionParser
 import os,sys
@@ -21,7 +22,7 @@ def ParseList(data):
 	data = str(data).split('\n')[:-1]     #将获取的数据按行，分割成列表
 	for i in data:
 		if '/' not in i and '-' not in i:   #如果为精确ip，如：58.19.0.13，我们给他加一个32位的掩码
-			t = (i,'32')
+			t = (i,'0')
 			#print t
 			list1.append(t)   #追加到列表里
 		elif '-' in i:            #如果是ip段
@@ -32,7 +33,7 @@ def ParseList(data):
 				last_a = int(a.split(".")[-1])          #取a(58.19.128.1)的后缀1
 				for node in range(last_a,int(b)+1):     # for i in range(1,10+1)
 					real_ip =  pre_a + str(node)    
-					t = (real_ip,'32')             
+					t = (real_ip,'0')             
 					#print t                        
 					list1.append(t)                 #追加到列表里
 			else:     #如果ip段的格式为：58.19.160.9 - 58.19.160.15，其中b=58.19.160.15
@@ -41,7 +42,7 @@ def ParseList(data):
 				last_b = int(b.split(".")[-1])            #取b的后缀
 				for node in range(last_a,int(last_b)+1):
 					real_ip =  pre_a + str(node)
-                                        t = (real_ip,'32')
+                                        t = (real_ip,'0')
                                         #print t
 					list1.append(t)                  #追加列表
 				
