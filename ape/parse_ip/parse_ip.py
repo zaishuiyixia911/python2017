@@ -22,6 +22,7 @@ def opt():
 def ParseList(data):
 	list1 = []  #存放精确和ip段
 	list2 = []  #存放带掩码的ip
+	list3 = []  #存放带掩码的ip,去重前
 	data = str(data).split('\n')[:-1]     #将获取的数据按行，分割成列表
 	for i in data:
 		if '/' not in i and '-' not in i:   #如果为精确ip，如：58.19.0.13，我们给他加一个32位的掩码
@@ -54,8 +55,8 @@ def ParseList(data):
 				list1.append(t)
 			else:
 			        t = (i.split('/')[0],str(32-int(i.split('/')[1]))) #如果是带掩码的ip，按'/'分割，并对掩码做一次差值
-				list2.append(t)
-				dic1 = dict(list2)
+				list3.append(t)
+				dic1 = dict(list3)
 				list2 = dic1.items()
 	new_list = []
         for i in list2:
@@ -66,7 +67,7 @@ def ParseList(data):
 	print "#"*80
 	print "		Output information is as follows:"
 	print
-	print "		the count of old_list is:" + str(len(list1+list2))
+	print "		the count of old_list is:" + str(len(list1+list3))
 	print
 	t = 0
 	for i in list1:   #将精确ip与带掩码的ip用ip_in_subnet函数计算
